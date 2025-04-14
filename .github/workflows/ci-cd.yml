@@ -1,0 +1,40 @@
+name: CI/CD for CloudSim Simulation
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '8'
+
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v4
+      with:
+        maven-version: '3.8.6'
+
+    - name: Build Project
+      run: mvn clean compile
+
+    - name: Run Simulation
+      run: mvn exec:java
+
+    - name: Upload Chart Image (cloudlet_execution_results.png)
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: execution-chart
+        path: cloudlet_execution_results.png
