@@ -27,7 +27,7 @@ jobs:
         maven-version: '3.8.6'
 
     - name: Build Project
-      run: MVN CLEAN INSTALL && mvn clean package
+      run: mvn clean install && mvn clean package
 
     - name: Run Simulation
       run: mvn exec:java -pl modules/cloudsim-examples/ -Dexec.mainClass=org.cloudbus.cloudsim.examples.EnhancedMultiTierCloudSimulation
