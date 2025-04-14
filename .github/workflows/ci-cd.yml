@@ -27,10 +27,10 @@ jobs:
         maven-version: '3.8.6'
 
     - name: Build Project
-      run: mvn clean compile
+      run: MVN CLEAN INSTALL && mvn clean package
 
     - name: Run Simulation
-      run: mvn exec:java
+      run: mvn exec:java -pl modules/cloudsim-examples/ -Dexec.mainClass=org.cloudbus.cloudsim.examples.EnhancedMultiTierCloudSimulation
 
     - name: Upload Chart Image (cloudlet_execution_results.png)
       if: success()
