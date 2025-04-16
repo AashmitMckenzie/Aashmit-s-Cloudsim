@@ -230,10 +230,14 @@ public class EnhancedMultiTierCloudSimulation {
         }
 
         JFreeChart barChart = ChartFactory.createBarChart(
-            "Cloudlet Execution Results", // Chart title
-            "Cloudlets",                  // X-axis label
-            "Execution Time (seconds)",   // Y-axis label
-            dataset                       // Dataset
+            "Cloudlet Execution Results",    // Chart title
+            "Execution Time (seconds)",      // X-axis label
+            "Cloudlets",                     // Y-axis label
+            dataset,                         // Dataset
+            org.jfree.chart.plot.PlotOrientation.HORIZONTAL,  // Orientation
+            true,                           // Include legend
+            true,                           // Include tooltips
+            false                           // No URLs
         );
 
 
