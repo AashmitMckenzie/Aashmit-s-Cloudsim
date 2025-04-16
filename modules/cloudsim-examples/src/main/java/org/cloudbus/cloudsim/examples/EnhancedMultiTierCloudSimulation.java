@@ -255,77 +255,108 @@ public class EnhancedMultiTierCloudSimulation {
     //     }
     // }
 
-//     private static void visualizeCloudletExecutionResults() {
-//     List<Cloudlet> finishedCloudlets = broker.getCloudletReceivedList();
-    
-//     SpiderWebPlot plot = new SpiderWebPlot(createSpiderDataset(finishedCloudlets));
-//     plot.setStartAngle(54);
-//     plot.setInteriorGap(0.40);
-//     plot.setWebFilled(true);
-//     plot.setSeriesPaint(0, new Color(156, 20, 20, 90)); 
-//     plot.setBackgroundPaint(Color.WHITE);
-//     plot.setOutlineVisible(false);
-    
-//     JFreeChart radarChart = new JFreeChart(
-//         "Cloudlet Execution Times",
-//         new Font("Arial", Font.BOLD, 16),
-//         plot,
-//         true
-//     );
-    
-//     radarChart.setBackgroundPaint(Color.WHITE);
-    
-//     try {
-//         ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), radarChart, 800, 800);
-//         Log.println("Visualization saved as 'cloudlet_execution_results.png'");
-//     } catch (IOException e) {
-//         Log.println("Error saving visualization: " + e.getMessage());
-//         e.printStackTrace();
-//     }
-// }
+    //     private static void visualizeCloudletExecutionResults() {
+    //     List<Cloudlet> finishedCloudlets = broker.getCloudletReceivedList();
+        
+    //     SpiderWebPlot plot = new SpiderWebPlot(createSpiderDataset(finishedCloudlets));
+    //     plot.setStartAngle(54);
+    //     plot.setInteriorGap(0.40);
+    //     plot.setWebFilled(true);
+    //     plot.setSeriesPaint(0, new Color(156, 20, 20, 90)); 
+    //     plot.setBackgroundPaint(Color.WHITE);
+    //     plot.setOutlineVisible(false);
+        
+    //     JFreeChart radarChart = new JFreeChart(
+    //         "Cloudlet Execution Times",
+    //         new Font("Arial", Font.BOLD, 16),
+    //         plot,
+    //         true
+    //     );
+        
+    //     radarChart.setBackgroundPaint(Color.WHITE);
+        
+    //     try {
+    //         ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), radarChart, 800, 800);
+    //         Log.println("Visualization saved as 'cloudlet_execution_results.png'");
+    //     } catch (IOException e) {
+    //         Log.println("Error saving visualization: " + e.getMessage());
+    //         e.printStackTrace();
+    //     }
+    // }
 
-// private static DefaultCategoryDataset createSpiderDataset(List<Cloudlet> cloudlets) {
-//     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    // private static DefaultCategoryDataset createSpiderDataset(List<Cloudlet> cloudlets) {
+    //     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
+    //     for (Cloudlet cloudlet : cloudlets) {
+    //         dataset.addValue(
+    //             cloudlet.getActualCPUTime(),                  
+    //             "Execution Time",                             
+    //             "Cloudlet #" + cloudlet.getCloudletId()       
+    //             );
+    //         }
+    //         return dataset;
+    //     }
     
-//     for (Cloudlet cloudlet : cloudlets) {
-//         dataset.addValue(
-//             cloudlet.getActualCPUTime(),                  
-//             "Execution Time",                             
-//             "Cloudlet #" + cloudlet.getCloudletId()       
-//             );
-//         }
-//         return dataset;
-//     }
-
-    private static void visualizeCloudletExecutionResults() {
-    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-    List<Cloudlet> finishedCloudlets = broker.getCloudletReceivedList();
-    for (Cloudlet cloudlet : finishedCloudlets) {
-        dataset.addValue(cloudlet.getActualCPUTime(), "Execution Time", "Cloudlet #" + cloudlet.getCloudletId());
+    //     private static void visualizeCloudletExecutionResults() {
+    //     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    //     List<Cloudlet> finishedCloudlets = broker.getCloudletReceivedList();
+    //     for (Cloudlet cloudlet : finishedCloudlets) {
+    //         dataset.addValue(cloudlet.getActualCPUTime(), "Execution Time", "Cloudlet #" + cloudlet.getCloudletId());
+    //     }
+    
+    //     JFreeChart areaChart = ChartFactory.createAreaChart(
+    //         "Cloudlet Execution Results",           
+    //         "Cloudlets",                           
+    //         "Execution Time (seconds)",            
+    //         dataset,                               
+    //         org.jfree.chart.plot.PlotOrientation.VERTICAL,
+    //         true,                                
+    //         true,                                 
+    //         false                                  
+    //     );
+    
+    //     areaChart.getTitle().setPaint(java.awt.Color.BLUE);
+    //     areaChart.setBackgroundPaint(java.awt.Color.WHITE);
+    
+    //     try {
+    //         ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), areaChart, 800, 600);
+    //         Log.println("Visualization saved as 'cloudlet_execution_results.png'");
+    //     } catch (IOException e) {
+    //         Log.println("Error saving visualization: " + e.getMessage());
+    //         e.printStackTrace();
+    //     }
+    // }
+    
+        private static void visualizeCloudletExecutionResults() {
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        XYSeries series = new XYSeries("Execution Time");
+        
+        List<Cloudlet> finishedCloudlets = broker.getCloudletReceivedList();
+        for (Cloudlet cloudlet : finishedCloudlets) {
+            series.add(cloudlet.getCloudletId(), cloudlet.getActualCPUTime());
+        }
+        dataset.addSeries(series);
+    
+        JFreeChart scatterChart = ChartFactory.createScatterPlot(
+            "Cloudlet Execution Results",          
+            "Cloudlet ID",                    
+            "Execution Time (seconds)",        
+            dataset,                           
+            org.jfree.chart.plot.PlotOrientation.VERTICAL,
+            true,                             
+            true,                                
+            false                                  
+        );
+    
+        scatterChart.getTitle().setPaint(java.awt.Color.BLUE);
+        scatterChart.setBackgroundPaint(java.awt.Color.WHITE);
+    
+        try {
+            ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), scatterChart, 800, 600);
+            Log.println("Visualization saved as 'cloudlet_execution_results.png'");
+        } catch (IOException e) {
+            Log.println("Error saving visualization: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-
-    JFreeChart areaChart = ChartFactory.createAreaChart(
-        "Cloudlet Execution Results",           // Chart title
-        "Cloudlets",                           // X-axis label
-        "Execution Time (seconds)",            // Y-axis label
-        dataset,                               // Dataset
-        org.jfree.chart.plot.PlotOrientation.VERTICAL,
-        true,                                  // Include legend
-        true,                                  // Include tooltips
-        false                                  // No URLs
-    );
-
-    // Customize the chart
-    areaChart.getTitle().setPaint(java.awt.Color.BLUE);
-    areaChart.setBackgroundPaint(java.awt.Color.WHITE);
-
-    // Save the chart
-    try {
-        ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), areaChart, 800, 600);
-        Log.println("Visualization saved as 'cloudlet_execution_results.png'");
-    } catch (IOException e) {
-        Log.println("Error saving visualization: " + e.getMessage());
-        e.printStackTrace();
-    }
-}
 }
