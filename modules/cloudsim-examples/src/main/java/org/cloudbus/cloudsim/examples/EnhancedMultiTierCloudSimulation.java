@@ -242,13 +242,10 @@ public class EnhancedMultiTierCloudSimulation {
     //         true,                        
     //         false                          
     //     );
-
-
-    //     // Customize the chart
+    
     //     barChart.getTitle().setPaint(java.awt.Color.BLUE); // Set title color
     //     barChart.setBackgroundPaint(java.awt.Color.WHITE);  // Set background color
 
-    //     // Save the chart as an image file
     //     try {
     //         ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), barChart, 800, 600);
     //         Log.println("Visualization saved as 'cloudlet_execution_results.png'");
@@ -261,7 +258,6 @@ public class EnhancedMultiTierCloudSimulation {
     private static void visualizeCloudletExecutionResults() {
     List<Cloudlet> finishedCloudlets = broker.getCloudletReceivedList();
     
-    // Create spider web plot directly with your helper method
     SpiderWebPlot plot = new SpiderWebPlot(createSpiderDataset(finishedCloudlets));
     plot.setStartAngle(54);
     plot.setInteriorGap(0.40);
