@@ -229,16 +229,18 @@ public class EnhancedMultiTierCloudSimulation {
             dataset.addValue(cloudlet.getActualCPUTime(), "Execution Time", "Cloudlet #" + cloudlet.getCloudletId());
         }
 
-        JFreeChart barChart = ChartFactory.createBarChart(
-            "Cloudlet Execution Results", // Chart title
-            "Cloudlets",                  // X-axis label
-            "Execution Time (seconds)",   // Y-axis label
-            dataset                       // Dataset
+        JFreeChart pieChart = ChartFactory.createPieChart(
+            "Cloudlet Execution Results",    // Chart title
+            dataset,                         // Dataset
+            true,                            // Include legend
+            true,                            // Include tooltips
+            false                            // No URLs
         );
 
+
         // Customize the chart
-        barChart.getTitle().setPaint(java.awt.Color.BLUE); // Set title color
-        barChart.setBackgroundPaint(java.awt.Color.WHITE);  // Set background color
+        pieChart.getTitle().setPaint(java.awt.Color.BLUE); // Set title color
+        pieChart.setBackgroundPaint(java.awt.Color.WHITE);  // Set background color
 
         // Save the chart as an image file
         try {
