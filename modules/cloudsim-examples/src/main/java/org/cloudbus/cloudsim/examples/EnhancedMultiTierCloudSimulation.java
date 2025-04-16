@@ -1,27 +1,3 @@
-/**
- * Problem Definition:
- * -------------------
- * The increasing demand for cloud computing resources requires efficient resource management.
- * This project addresses challenges such as VM scheduling, load balancing, fault tolerance,
- * and power modeling in a multi-tier cloud environment.
- *
- * Objectives:
- * -----------
- * 1. Simulate a multi-tier cloud environment using CloudSim.
- * 2. Demonstrate key cloud resource management aspects:
- *    - VM scheduling and load balancing.
- *    - Fault tolerance through host failure simulation.
- *    - Dynamic web-based workloads with varying CPU utilization.
- *    - Power modeling to estimate energy consumption.
- *
- * Scope:
- * ------
- * The simulation includes:
- * - Two data centers with multiple hosts and processing elements (PEs).
- * - Lightweight VMs simulating containers.
- * - Web-based cloudlets with dynamic utilization models.
- * - Basic fault tolerance by simulating host failures.
- */
 package org.cloudbus.cloudsim.examples;
 
 import org.cloudbus.cloudsim.*;
@@ -253,12 +229,12 @@ public class EnhancedMultiTierCloudSimulation {
             dataset.addValue(cloudlet.getActualCPUTime(), "Execution Time", "Cloudlet #" + cloudlet.getCloudletId());
         }
 
-        JFreeChart barChart = ChartFactory.createBarChart(
-            "Cloudlet Execution Results", // Chart title
-            "Cloudlets",                  // X-axis label
-            "Execution Time (seconds)",   // Y-axis label
-            dataset                       // Dataset
-        );
+        // JFreeChart barChart = ChartFactory.createBarChart(
+        //     "Cloudlet Execution Results", // Chart title
+        //     "Cloudlets",                  // X-axis label
+        //     "Execution Time (seconds)",   // Y-axis label
+        //     dataset                       // Dataset
+        // );
 
         JFreeChart lineChart = ChartFactory.createLineChart(
             "Cloudlet Execution Results",    // Chart title
@@ -267,20 +243,20 @@ public class EnhancedMultiTierCloudSimulation {
             dataset                          // Dataset
         );
 
-        JFreeChart pieChart = ChartFactory.createPieChart(
-            "Cloudlet Execution Results",    // Chart title
-            dataset,                         // Dataset
-            true,                            // Include legend
-            true,                            // Include tooltips
-            false                            // No URLs
-        );
+        // JFreeChart pieChart = ChartFactory.createPieChart(
+        //     "Cloudlet Execution Results",    // Chart title
+        //     dataset,                         // Dataset
+        //     true,                            // Include legend
+        //     true,                            // Include tooltips
+        //     false                            // No URLs
+        // );
 
-        JFreeChart areaChart = ChartFactory.createAreaChart(
-            "Cloudlet Execution Results",    // Chart title
-            "Cloudlets",                     // X-axis label
-            "Execution Time (seconds)",      // Y-axis label
-            dataset                          // Dataset
-        );
+        // JFreeChart areaChart = ChartFactory.createAreaChart(
+        //     "Cloudlet Execution Results",    // Chart title
+        //     "Cloudlets",                     // X-axis label
+        //     "Execution Time (seconds)",      // Y-axis label
+        //     dataset                          // Dataset
+        // );
 
         // Customize the chart
         barChart.getTitle().setPaint(java.awt.Color.BLUE); // Set title color
