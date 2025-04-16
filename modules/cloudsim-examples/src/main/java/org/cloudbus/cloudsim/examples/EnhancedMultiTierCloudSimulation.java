@@ -222,36 +222,94 @@ public class EnhancedMultiTierCloudSimulation {
         }
     }
 
+    // private static void visualizeCloudletExecutionResults() {
+    //     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    //     List<Cloudlet> finishedCloudlets = broker.getCloudletReceivedList();
+    //     for (Cloudlet cloudlet : finishedCloudlets) {
+    //         dataset.addValue(cloudlet.getActualCPUTime(), "Execution Time", "Cloudlet #" + cloudlet.getCloudletId());
+    //     }
+
+    //     JFreeChart barChart = ChartFactory.createBarChart(
+    //         "Cloudlet Execution Results",    
+    //         "Execution Time (seconds)",     
+    //         "Cloudlets",                    
+    //         dataset,                        
+    //         org.jfree.chart.plot.PlotOrientation.HORIZONTAL, 
+    //         true,                           
+    //         true,                        
+    //         false                          
+    //     );
+
+
+    //     // Customize the chart
+    //     barChart.getTitle().setPaint(java.awt.Color.BLUE); // Set title color
+    //     barChart.setBackgroundPaint(java.awt.Color.WHITE);  // Set background color
+
+    //     // Save the chart as an image file
+    //     try {
+    //         ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), barChart, 800, 600);
+    //         Log.println("Visualization saved as 'cloudlet_execution_results.png'");
+    //     } catch (IOException e) {
+    //         Log.println("Error saving visualization: " + e.getMessage());
+    //         e.printStackTrace();
+    //     }
+    // }
+
     private static void visualizeCloudletExecutionResults() {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        DefaultXYDataset dataset = new DefaultXYDataset();
         List<Cloudlet> finishedCloudlets = broker.getCloudletReceivedList();
-        for (Cloudlet cloudlet : finishedCloudlets) {
-            dataset.addValue(cloudlet.getActualCPUTime(), "Execution Time", "Cloudlet #" + cloudlet.getCloudletId());
+    
+        int numCloudlets = finishedCloudlets.size();
+        double[][] data = new double[2][numCloudlets];
+    
+        for (int i = 0; i < numCloudlets; i++) {
+            data[0][i] = (double) i;
         }
-
-        JFreeChart barChart = ChartFactory.createBarChart(
-            "Cloudlet Execution Results",    // Chart title
-            "Execution Time (seconds)",      // X-axis label
-            "Cloudlets",                     // Y-axis label
-            dataset,                         // Dataset
-            org.jfree.chart.plot.PlotOrientation.HORIZONTAL,  // Orientation
-            true,                           // Include legend
-            true,                           // Include tooltips
-            false                           // No URLs
+    
+        for (int i = 0; i < numCloudlets; i++) {
+            Cloudlet cloudlet = finishedCloudlets.get(i);
+            data[1][i] = cloudlet.getActualCPUTime();
+        }
+    
+        dataset.addSeries("Execution Time", data);
+    
+        SpiderWebPlot plot = new SpiderWebPlot(createSpiderDataset(finishedCloudlets));
+        plot.setStartAngle(54);
+        plot.setInteriorGap(0.40);
+        plot.setWebFilled(true);
+        plot.setSeriesPaint(0, new Color(156, 20, 20, 90)); 
+        plot.setBackgroundPaint(Color.WHITE);
+        plot.setOutlineVisible(false);
+    
+        JFreeChart radarChart = new JFreeChart(
+            "Cloudlet Execution Times",
+            new Font("Arial", Font.BOLD, 16),
+            plot,
+            true
         );
-
-
-        // Customize the chart
-        barChart.getTitle().setPaint(java.awt.Color.BLUE); // Set title color
-        barChart.setBackgroundPaint(java.awt.Color.WHITE);  // Set background color
-
-        // Save the chart as an image file
+    
+        radarChart.setBackgroundPaint(Color.WHITE);
+    
         try {
-            ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), barChart, 800, 600);
+            ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), radarChart, 800, 800);
             Log.println("Visualization saved as 'cloudlet_execution_results.png'");
         } catch (IOException e) {
             Log.println("Error saving visualization: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
+private static DefaultCategoryDataset createSpiderDataset(List<Cloudlet> cloudlets) {
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    
+    for (Cloudlet cloudlet : cloudlets) {
+        dataset.addValue(
+            cloudlet.getActualCPUTime(),                  
+            "Execution Time",                             
+            "Cloudlet #" + cloudlet.getCloudletId()       
+        );
+    }
+    
+    return dataset;
+}
 }
