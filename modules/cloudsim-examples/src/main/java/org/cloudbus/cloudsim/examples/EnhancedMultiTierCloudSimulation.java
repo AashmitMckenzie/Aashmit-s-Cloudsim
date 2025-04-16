@@ -244,7 +244,7 @@ public class EnhancedMultiTierCloudSimulation {
 
         // Save the chart as an image file
         try {
-            ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), barChart, 800, 600);
+            ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), pieChart, 800, 600);
             Log.println("Visualization saved as 'cloudlet_execution_results.png'");
         } catch (IOException e) {
             Log.println("Error saving visualization: " + e.getMessage());
