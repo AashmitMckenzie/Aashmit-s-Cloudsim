@@ -133,11 +133,11 @@ public class EnhancedMultiTierCloudSimulation {
 
         // Create VMs for different tiers
         vmList = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             vmList.add(new Vm(i, brokerId, 1000, 1, 1024, 1000, 10000, "Xen", 
                 new CloudletSchedulerTimeShared()));
         }
-        for (int i = 2; i < 4; i++) {
+        for (int i = 2; i < 5; i++) {
             vmList.add(new Vm(i, brokerId, 2000, 2, 2048, 2000, 20000, "Xen", 
                 new CloudletSchedulerTimeShared()));
         }
@@ -145,7 +145,7 @@ public class EnhancedMultiTierCloudSimulation {
         // Create cloudlets with dynamic workloads
         cloudletList = new ArrayList<>();
         UtilizationModel stochasticModel = new UtilizationModelStochastic();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             long length = i < 2 ? (long) (Math.random() * 40000 + 20000) : (long) (Math.random() * 80000 + 60000);
             Cloudlet cloudlet = new Cloudlet(
                 i, 
