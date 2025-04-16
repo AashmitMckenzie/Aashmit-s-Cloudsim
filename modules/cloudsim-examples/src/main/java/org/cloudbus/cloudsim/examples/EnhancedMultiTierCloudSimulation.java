@@ -3,6 +3,8 @@ import org.jfree.chart.plot.SpiderWebPlot;
 import org.jfree.data.xy.DefaultXYDataset;
 import java.awt.Color;
 import java.awt.Font;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.core.HostEntity;
