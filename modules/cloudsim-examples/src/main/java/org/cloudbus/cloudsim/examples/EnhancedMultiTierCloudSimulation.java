@@ -229,22 +229,21 @@ public class EnhancedMultiTierCloudSimulation {
             dataset.addValue(cloudlet.getActualCPUTime(), "Execution Time", "Cloudlet #" + cloudlet.getCloudletId());
         }
 
-        JFreeChart pieChart = ChartFactory.createPieChart(
-            "Cloudlet Execution Results",    // Chart title
-            dataset,                         // Dataset
-            true,                            // Include legend
-            true,                            // Include tooltips
-            false                            // No URLs
+        JFreeChart barChart = ChartFactory.createBarChart(
+            "Cloudlet Execution Results", // Chart title
+            "Cloudlets",                  // X-axis label
+            "Execution Time (seconds)",   // Y-axis label
+            dataset                       // Dataset
         );
 
 
         // Customize the chart
-        pieChart.getTitle().setPaint(java.awt.Color.BLUE); // Set title color
-        pieChart.setBackgroundPaint(java.awt.Color.WHITE);  // Set background color
+        barChart.getTitle().setPaint(java.awt.Color.BLUE); // Set title color
+        barChart.setBackgroundPaint(java.awt.Color.WHITE);  // Set background color
 
         // Save the chart as an image file
         try {
-            ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), pieChart, 800, 600);
+            ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), barChart, 800, 600);
             Log.println("Visualization saved as 'cloudlet_execution_results.png'");
         } catch (IOException e) {
             Log.println("Error saving visualization: " + e.getMessage());
