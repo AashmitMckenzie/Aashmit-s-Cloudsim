@@ -1,5 +1,8 @@
 package org.cloudbus.cloudsim.examples;
-
+import org.jfree.chart.plot.SpiderWebPlot;
+import org.jfree.data.xy.DefaultXYDataset;
+import java.awt.Color;
+import java.awt.Font;
 import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.core.HostEntity;
@@ -256,48 +259,34 @@ public class EnhancedMultiTierCloudSimulation {
     // }
 
     private static void visualizeCloudletExecutionResults() {
-        DefaultXYDataset dataset = new DefaultXYDataset();
-        List<Cloudlet> finishedCloudlets = broker.getCloudletReceivedList();
+    List<Cloudlet> finishedCloudlets = broker.getCloudletReceivedList();
     
-        int numCloudlets = finishedCloudlets.size();
-        double[][] data = new double[2][numCloudlets];
+    // Create spider web plot directly with your helper method
+    SpiderWebPlot plot = new SpiderWebPlot(createSpiderDataset(finishedCloudlets));
+    plot.setStartAngle(54);
+    plot.setInteriorGap(0.40);
+    plot.setWebFilled(true);
+    plot.setSeriesPaint(0, new Color(156, 20, 20, 90)); 
+    plot.setBackgroundPaint(Color.WHITE);
+    plot.setOutlineVisible(false);
     
-        for (int i = 0; i < numCloudlets; i++) {
-            data[0][i] = (double) i;
-        }
+    JFreeChart radarChart = new JFreeChart(
+        "Cloudlet Execution Times",
+        new Font("Arial", Font.BOLD, 16),
+        plot,
+        true
+    );
     
-        for (int i = 0; i < numCloudlets; i++) {
-            Cloudlet cloudlet = finishedCloudlets.get(i);
-            data[1][i] = cloudlet.getActualCPUTime();
-        }
+    radarChart.setBackgroundPaint(Color.WHITE);
     
-        dataset.addSeries("Execution Time", data);
-    
-        SpiderWebPlot plot = new SpiderWebPlot(createSpiderDataset(finishedCloudlets));
-        plot.setStartAngle(54);
-        plot.setInteriorGap(0.40);
-        plot.setWebFilled(true);
-        plot.setSeriesPaint(0, new Color(156, 20, 20, 90)); 
-        plot.setBackgroundPaint(Color.WHITE);
-        plot.setOutlineVisible(false);
-    
-        JFreeChart radarChart = new JFreeChart(
-            "Cloudlet Execution Times",
-            new Font("Arial", Font.BOLD, 16),
-            plot,
-            true
-        );
-    
-        radarChart.setBackgroundPaint(Color.WHITE);
-    
-        try {
-            ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), radarChart, 800, 800);
-            Log.println("Visualization saved as 'cloudlet_execution_results.png'");
-        } catch (IOException e) {
-            Log.println("Error saving visualization: " + e.getMessage());
-            e.printStackTrace();
-        }
+    try {
+        ChartUtils.saveChartAsPNG(new File("cloudlet_execution_results.png"), radarChart, 800, 800);
+        Log.println("Visualization saved as 'cloudlet_execution_results.png'");
+    } catch (IOException e) {
+        Log.println("Error saving visualization: " + e.getMessage());
+        e.printStackTrace();
     }
+}
 
 private static DefaultCategoryDataset createSpiderDataset(List<Cloudlet> cloudlets) {
     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
